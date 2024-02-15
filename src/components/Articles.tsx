@@ -57,6 +57,7 @@ const Articles = () => {
   }
 
   useEffect(() => {
+    console.log(articles)
     getArticles(endPoint)
   }, [])
 
