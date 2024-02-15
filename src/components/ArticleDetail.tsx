@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react'
-import { Col, Container, Row, Spinner } from 'react-bootstrap'
-import { Link, useParams } from 'react-router-dom'
+import { Button, Col, Container, Row, Spinner } from 'react-bootstrap'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Article } from '../interfaces/interfaces'
 
 const ArticleDetail = () => {
   const endPoint = 'https://api.spaceflightnewsapi.net/v4/articles/'
   const params = useParams()
+  const navigate = useNavigate()
   const [articleData, setArticleData] = useState<Article | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [nextPage, setNextPage] = useState<string | undefined>(undefined)
+  const [prevPage, setPrevPage] = useState<string | undefined>(undefined)
 
   const getArticleData = async () => {
     setIsLoading(true)
@@ -26,6 +29,37 @@ const ArticleDetail = () => {
     }
   }
 
+  const getNextArticle = async () => {
+    try {
+      const res = await fetch(endPoint)
+      if (res.ok) {
+        const data = await res.json()
+        for (let i = 0; i < data.results.length; i++) {
+          if (Number(params.articleId) === data.results[i].id && i === 0) {
+            setNextPage(data.results[i + 1].id)
+            setPrevPage(undefined)
+          } else if (
+            Number(params.articleId) === data.results[i].id &&
+            i !== 0
+          ) {
+            setNextPage(data.results[i + 1].id)
+            setPrevPage(data.results[i - 1].id)
+          } else if (
+            Number(params.articleId) === data.results[i].id &&
+            i === data.results.length - 1
+          ) {
+            setNextPage(undefined)
+            setPrevPage(data.results[i - 1].id)
+          }
+        }
+      } else {
+        throw new Error(String(res.status))
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   const convertDate = (date: string) => {
     const simpleDate = date
       .slice(0, date.indexOf('T'))
@@ -37,6 +71,7 @@ const ArticleDetail = () => {
 
   useEffect(() => {
     getArticleData()
+    getNextArticle()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params])
 
@@ -80,15 +115,24 @@ const ArticleDetail = () => {
           )
         )}
         <Col className="d-flex justify-content-end">
-          <Link to="/" className="btn btn-dark me-1">
+          <Link to="/" className="btn btn-dark">
             Back to Home
           </Link>
-          <Link
-            to={`/article/${parseInt(params.articleId!) - 1}`}
-            className="btn btn-primary"
+          <Button
+            onClick={() => navigate(`/article/${prevPage}`)}
+            variant="secondary"
+            className="mx-1"
+            disabled={prevPage ? false : true}
+          >
+            Previous article
+          </Button>
+          <Button
+            onClick={() => navigate(`/article/${nextPage}`)}
+            variant="primary"
+            disabled={nextPage ? false : true}
           >
             Next article
-          </Link>
+          </Button>
         </Col>
       </Row>
     </Container>
