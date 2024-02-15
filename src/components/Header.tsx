@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Col, Container, Row, Form } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
-const Header = () => {
+const Header = ({ setTheme }: HeaderProps) => {
   const [check, setCheck] = useState(Boolean(localStorage.getItem('checked')))
 
   const changeTheme = (boolean: boolean) => {
@@ -10,9 +10,11 @@ const Header = () => {
     if (boolean === true) {
       localStorage.setItem('checked', String(check))
       html.setAttribute('data-bs-theme', 'light')
+      setTheme(html.getAttribute('data-bs-theme')!)
     } else {
       localStorage.clear()
       html.setAttribute('data-bs-theme', 'dark')
+      setTheme(html.getAttribute('data-bs-theme')!)
     }
   }
 
@@ -48,6 +50,10 @@ const Header = () => {
       </Container>
     </nav>
   )
+}
+
+interface HeaderProps {
+  setTheme: React.Dispatch<React.SetStateAction<string>>
 }
 
 export default Header

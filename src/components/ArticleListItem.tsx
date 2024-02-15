@@ -1,6 +1,6 @@
 import { Col, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import { Article } from '../interfaces/interfaces'
+import { Article } from '../interfaces/fetch-interfaces'
 
 interface ArticleListItemProps {
   article: Article

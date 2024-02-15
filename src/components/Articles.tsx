@@ -7,10 +7,10 @@ import {
   Row,
   Spinner,
 } from 'react-bootstrap'
-import { Articles } from '../interfaces/interfaces'
+import { Articles } from '../interfaces/fetch-interfaces'
 import ArticleListItem from './ArticleListItem'
 
-const Articles = () => {
+const Articles = ({ theme }: ArticlesProps) => {
   const endPoint = 'https://api.spaceflightnewsapi.net/v4/articles/'
   const [articles, setArticles] = useState<Articles | null>(null)
   const [page, setPage] = useState(1)
@@ -69,17 +69,17 @@ const Articles = () => {
             {articles && (
               <ButtonGroup aria-label="Change page">
                 <Button
-                  variant="secondary"
+                  variant={theme === 'dark' ? 'light' : 'dark'}
                   disabled={articles.previous ? false : true}
                   onClick={() => previousPage()}
                 >
                   {'<'}
                 </Button>
-                <Button variant="primary" disabled>
+                <Button variant={theme === 'dark' ? 'light' : 'dark'} disabled>
                   {page}
                 </Button>
                 <Button
-                  variant="secondary"
+                  variant={theme === 'dark' ? 'light' : 'dark'}
                   disabled={articles.next ? false : true}
                   onClick={() => nextPage()}
                 >
@@ -104,17 +104,17 @@ const Articles = () => {
             <Col className="d-flex justify-content-end pt-2">
               <ButtonGroup aria-label="Change page">
                 <Button
-                  variant="secondary"
+                  variant={theme === 'dark' ? 'light' : 'dark'}
                   disabled={articles.previous ? false : true}
                   onClick={() => previousPage()}
                 >
                   {'<'}
                 </Button>
-                <Button variant="primary" disabled>
+                <Button variant={theme === 'dark' ? 'light' : 'dark'} disabled>
                   {page}
                 </Button>
                 <Button
-                  variant="secondary"
+                  variant={theme === 'dark' ? 'light' : 'dark'}
                   disabled={articles.next ? false : true}
                   onClick={() => nextPage()}
                 >
@@ -127,6 +127,10 @@ const Articles = () => {
       </Container>
     </>
   )
+}
+
+interface ArticlesProps {
+  theme: string
 }
 
 export default Articles

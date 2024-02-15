@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { Button, Col, Container, Row, Spinner } from 'react-bootstrap'
-import { Link, useNavigate, useParams } from 'react-router-dom'
-import { Article } from '../interfaces/interfaces'
+import { useNavigate, useParams } from 'react-router-dom'
+import { Article } from '../interfaces/fetch-interfaces'
 
-const ArticleDetail = () => {
+const ArticleDetail = ({ theme }: ArticleDetailProps) => {
   const endPoint = 'https://api.spaceflightnewsapi.net/v4/articles/'
   const params = useParams()
   const navigate = useNavigate()
@@ -75,6 +75,8 @@ const ArticleDetail = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params])
 
+  useEffect(() => {}, [theme])
+
   return (
     <Container className="my-5">
       <Row>
@@ -115,9 +117,12 @@ const ArticleDetail = () => {
           )
         )}
         <Col className="d-flex justify-content-end">
-          <Link to="/" className="btn btn-dark">
+          <Button
+            onClick={() => navigate(`/`)}
+            variant={theme === 'dark' ? 'light' : 'dark'}
+          >
             Back to Home
-          </Link>
+          </Button>
           <Button
             onClick={() => navigate(`/article/${prevPage}`)}
             variant="secondary"
@@ -137,6 +142,10 @@ const ArticleDetail = () => {
       </Row>
     </Container>
   )
+}
+
+interface ArticleDetailProps {
+  theme: string
 }
 
 export default ArticleDetail
