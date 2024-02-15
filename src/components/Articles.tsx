@@ -69,17 +69,17 @@ const Articles = () => {
             {articles && (
               <ButtonGroup aria-label="Change page">
                 <Button
-                  variant="dark"
+                  variant="secondary"
                   disabled={articles.previous ? false : true}
                   onClick={() => previousPage()}
                 >
                   {'<'}
                 </Button>
-                <Button variant="dark" disabled>
+                <Button variant="primary" disabled>
                   {page}
                 </Button>
                 <Button
-                  variant="dark"
+                  variant="secondary"
                   disabled={articles.next ? false : true}
                   onClick={() => nextPage()}
                 >
@@ -104,17 +104,17 @@ const Articles = () => {
             <Col className="d-flex justify-content-end pt-2">
               <ButtonGroup aria-label="Change page">
                 <Button
-                  variant="dark"
+                  variant="secondary"
                   disabled={articles.previous ? false : true}
                   onClick={() => previousPage()}
                 >
                   {'<'}
                 </Button>
-                <Button variant="dark" disabled>
+                <Button variant="primary" disabled>
                   {page}
                 </Button>
                 <Button
-                  variant="dark"
+                  variant="secondary"
                   disabled={articles.next ? false : true}
                   onClick={() => nextPage()}
                 >
