@@ -19,7 +19,12 @@ const ArticleListItem = ({ article }: ArticleListItemProps) => {
   return (
     <Row className="border-bottom border-secondary mb-2 py-1">
       <Col xs={2}>
-        <img src={article.image_url} alt={`${article.id}`} width="100%" />
+        <Link
+          to={`/article/${article.id}`}
+          className="link-underline link-underline-opacity-0"
+        >
+          <img src={article.image_url} alt={`${article.id}`} width="100%" />
+        </Link>
       </Col>
       <Col xs={10}>
         <div>
